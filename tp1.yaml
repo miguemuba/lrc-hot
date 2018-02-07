@@ -1,0 +1,214 @@
+heat_template_version: 2016-04-08
+parameters:
+  key:
+    type: string
+    description: instance key
+  flavor:
+    type: string
+    description: Instance type for the instance to be created
+    default: m1.tiny
+  image:
+    type: string
+    default: cirros
+    description: ID or name of the image to use for the instance
+  public_net_id:
+    type: string
+    description: Public network id
+    default: provider
+  router:
+    type: string
+    description: Router
+    default: router
+resources:
+  instance1:
+    type: OS::Nova::Server
+    properties:
+      name: tp1-ej1_vm1
+      image: xenial-server
+      key_name: { get_param: key }
+      flavor: m1.peque
+      networks:
+        - port: { get_resource: port1 }
+        - port: { get_resource: port7 }
+  instance2:
+    type: OS::Nova::Server
+    properties:
+      name: tp1-ej1_vm2
+      image: cirros
+      flavor: m1.tiny
+      networks:
+        - port: { get_resource: port2 }
+        - port: { get_resource: port3 }
+        - port: { get_resource: port8 }
+        - port: { get_resource: port9 }
+  instance3:
+    type: OS::Nova::Server
+    properties:
+      name: tp1-ej1_vm3
+      image: cirros
+      flavor: m1.tiny
+      networks:
+        - port: { get_resource: port4 }
+        - port: { get_resource: port5 }
+        - port: { get_resource: port10 }
+        - port: { get_resource: port11 }
+  instance4:
+    type: OS::Nova::Server
+    properties:
+      name: tp1-ej1_vm4
+      image: xenial-server
+      key_name: { get_param: key }
+      flavor: m1.peque
+      networks:
+        - port: { get_resource: port6 }
+        - port: { get_resource: port12 }
+  port1:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p1
+      network_id: { get_resource: net1 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet1 }
+  port2:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p2
+      network_id: { get_resource: net1 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet1 }
+  port3:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p3
+      network_id: { get_resource: net1 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet1 }
+  port4:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p4
+      network_id: { get_resource: net1 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet1 }
+  port5:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p5
+      network_id: { get_resource: net1 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet1 }
+  port6:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p6
+      network_id: { get_resource: net1 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet1 }
+  net1:
+    type: OS::Neutron::Net
+    properties:
+      port_security_enabled: false
+  subnet1:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: net1 }
+      cidr: 10.10.10.0/24
+  port7:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p7
+      network_id: { get_resource: net2 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet2 }
+  port8:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p8
+      network_id: { get_resource: net2 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet2 }
+  port9:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p9
+      network_id: { get_resource: net3 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet3 }
+  port10:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p10
+      network_id: { get_resource: net3 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet3 }
+  port11:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p11
+      network_id: { get_resource: net4 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet4 }
+  port12:
+    type: OS::Neutron::Port
+    properties:
+      name: tp1-ej1_p11
+      network_id: { get_resource: net4 }
+      fixed_ips:
+        - subnet_id: { get_resource: subnet4 }
+  net2:
+    type: OS::Neutron::Net
+    properties:
+      port_security_enabled: false
+  subnet2:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: net2 }
+      cidr: 172.16.0.0/24
+      gateway_ip: ''
+  net3:
+    type: OS::Neutron::Net
+    properties:
+      port_security_enabled: false
+  subnet3:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: net3 }
+      cidr: 172.16.1.0/24
+      gateway_ip: ''
+  net4:
+    type: OS::Neutron::Net
+    properties:
+      port_security_enabled: false
+  subnet6:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: net4 }
+      cidr: 172.16.2.0/24
+      gateway_ip: ''
+  floating_ip1:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: port1 }
+  floating_ip2:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: port2 }
+  floating_ip3:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: port4 }
+  floating_ip4:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network_id: { get_param: public_net_id }
+      port_id: { get_resource: port6 }
+  router_interface1:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router: { get_param: router }
+      subnet: { get_resource: subnet1 }
+outputs:
+
