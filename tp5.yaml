@@ -3,7 +3,6 @@ parameters:
   key:
     type: string
     description: instance key
-    default: mitaka
   flavor:
     type: string
     description: Instance type for the instance to be created
