@@ -1,3 +1,4 @@
+#!/bin/bash
 function clone-repo()
 {
   git clone https://github.com/miguemuba/lrc-hot
@@ -8,6 +9,7 @@ function os-auth()
   read -p "Ingrese el nombre de usuario: " nom
   if [ -s ~/.ssh/$key ] && [ ! -f $nom ]; then
     read -p "Ingrese contraseña: " pass
+    read -p "Ingrese direccion IPv4 de Servidor" controller
     echo "export OS_PROJECT_DOMAIN_NAME=default" >> $nom
     echo "export OS_USER_DOMAIN_NAME=default" >> $nom
     echo "export OS_PROJECT_NAME=admin" >> $nom
