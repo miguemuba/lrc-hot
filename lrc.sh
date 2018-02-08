@@ -145,8 +145,4 @@ function menu()
            echo "Opcion Incorrecta! Por favor ingrese nuevamente la opcion de menú."    
     esac
 }
-while (salir != Q | salir != q)
-{
-
-}
-$SHELL
+menu
