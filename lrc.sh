@@ -13,10 +13,13 @@ function os-auth()
     echo "export OS_PROJECT_NAME=admin" >> $nom
     echo "export OS_USERNAME="$nom >> $nom
     echo "export OS_PASSWORD="$pass >> $nom
-    echo "export OS_AUTH_URL=http://controller:35357/v3" >> $nom
+    echo "export OS_AUTH_URL=http://"$controller":35357/v3" >> $nom
     echo "export OS_IDENTITY_API_VERSION=3" >> $nom
     echo "export OS_IMAGE_API_VERSION=2" >> $nom
     echo "Usted ha creado el archivo de autenticacion exitosamente."
+    echo "Agregando servidor "$controller" en ubicacion /etc/hosts"
+    sleep 3
+    echo  $controller " controller" >> /etc/hosts
   else echo "Usted no ha creado aun su clave SSH";
   fi
 }
@@ -142,5 +145,8 @@ function menu()
            echo "Opcion Incorrecta! Por favor ingrese nuevamente la opcion de menú."    
     esac
 }
-menu
+while (salir != Q | salir != q)
+{
+
+}
 $SHELL
