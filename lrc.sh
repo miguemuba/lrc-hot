@@ -9,7 +9,6 @@ function os-auth()
   read -p "Ingrese el nombre de usuario: " nom
   if [ -s ~/.ssh/$key ] && [ ! -f $nom ]; then
     read -p "Ingrese contraseña: " pass
-    read -p "Ingrese direccion IPv4 de Servidor" controller
     echo "export OS_PROJECT_DOMAIN_NAME=default" >> $nom
     echo "export OS_USER_DOMAIN_NAME=default" >> $nom
     echo "export OS_PROJECT_NAME=admin" >> $nom
@@ -28,8 +27,10 @@ function os-auth()
 function os-client-install()
 {
   echo "Instalando Openstack-Cliente..."
-  sudo apt-get -y update
-  sudo apt-get -y install gcc libffi-dev libssl-dev python python-dev python-virtualenv virtualenvwrapper
+  sudo apt-get install python-dev python-pip
+  sudo pip install --upgrade pip
+  sudo pip install --upgrade setuptools
+  sudo pip install python-openstackclient
   
 }
 function os-stack-create()
@@ -68,11 +69,6 @@ function os-keypair()
   read -p "Ingrese nombre de SSH-Key: " key
   sudo openstack keypair create --public-key ~/.ssh/$key.pub $key
 }
-function os-cli()
-{
-  source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-  sudo mkvirtualenv os_cli
-}
 function os-auth-load()
 {
   read -p "Ingrese nombre de usuario: " nom
@@ -86,6 +82,7 @@ function os-user-show()
 }
 function menu()
 {
+  while true; do
   echo "###########################################################################"
   echo "#-----------LABORATORIO REDES DE COMPUTADORAS 2018------------------------"
   echo "#"
@@ -96,7 +93,6 @@ function menu()
   echo "#       4.- Instalar entorno Openstack Cliente"
   echo "#"
   echo "#    Trabajando en el entorno"
-  echo "#       5.- Desplegar Openstack Cliente"
   echo "#       6.- Cargar Autenticacion Openstack"
   echo "#       7.- Crear Keypair para instancias"                 
   echo "#       8.- Desplegar Trabajo Practico"
@@ -117,9 +113,6 @@ function menu()
         ;;
         3)
           os-auth
-        ;;
-        4)
-          os-client-install
         ;;
         5)
           os-cli
@@ -142,9 +135,14 @@ function menu()
   11)
      os-user-show
   ;;
+  12)
+     echo "Salir del script"
+     break
+  ;;
 	
          *)
            echo "Opcion Incorrecta! Por favor ingrese nuevamente la opcion de menú."    
-    esac
+   esac
+  done  
 }
 menu
