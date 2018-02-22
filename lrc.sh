@@ -100,13 +100,13 @@ function menu()
   echo "#       4.- Instalar entorno Openstack Cliente"
   echo "#"
   echo "#    Trabajando en el entorno"
-  echo "#       6.- Cargar Autenticacion Openstack"
-  echo "#       7.- Crear Keypair para instancias"                 
-  echo "#       8.- Desplegar Trabajo Practico"
-  echo "#       9.- Consulta Trabajo Practico"
-  echo "#       10.- Eliminar Trabajo Practico"
-  echo "#       11.- Consulta Usuario"
-  echo "# "      
+  echo "#       5.- Cargar Autenticacion Openstack"
+  echo "#       6.- Crear Keypair para instancias"                 
+  echo "#       7.- Desplegar Trabajo Practico"
+  echo "#       8.- Consulta Trabajo Practico"
+  echo "#       9.- Eliminar Trabajo Practico"
+  echo "#       10.- Consulta Usuario"
+  echo "#       11.- Salir"     
   echo "###########################################################################"
    
    read -p "Elegir opcion: " op
@@ -121,28 +121,28 @@ function menu()
         3)
           os-auth
         ;;
-        5)
-          os-cli
+        4)
+          os-client-install
         ;; 
-        6)
+        5)
           os-auth-load
         ;;
-        7)
+        6)
           os-keypair
         ;;
-	8)
+	7)
 	  os-stack-create
 	;;
-  9)
+  8)
     os-stack-show
   ;;
-  10)
+  9)
      os-stack-delete
   ;;
-  11)
+  10)
      os-user-show
   ;;
-  12)
+  11)
      echo "Salir del script"
      break
   ;;
