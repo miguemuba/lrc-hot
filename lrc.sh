@@ -45,27 +45,33 @@ function os-stack-create()
 {
   read -p "Ingrese nombre de usuario: " nom
   read -p "Ingrese el nombre de key: " key
-  if [ -f ~/.ssh/$key ]; then
+  if [ -f ~/.ssh/$key ]; then {
     echo "A continuacion se va a desplegar un TP.";
     echo "Ingresar nombre de TP deseado usando nomenclatura tpN.";
     echo "Por ej, para TP N°1 ingresar 'tp1'";
     read -p "Ingrese nombre del TP a desplegar" tp;
+    EXISTE=$(grep -ic "prueba" tp1.yaml)
+    if [ "$EXISTE" == 0 ]; then {
     sed -i '6i \    \default: '$key $tp.yaml;
     openstack stack create -t $tp.yaml $tp-$nom;
+    }
+    else openstack stack create -t $tp.yaml $tp-$nom;
+    fi
+  }
   else echo "Usted no ha creado aun su clave SSH.";
   fi
 }
 function os-stack-delete()
 {
-  #read -p "Ingrese nombre de usuario: " nom
-  #read -p "Ingrese nombre de TP a eliminar: " tpd
+  read -p "Ingrese nombre de usuario: " nom
+  read -p "Ingrese nombre de TP a eliminar: " tpd
   openstack stack delete $tpd-$nom
 }
 function os-stack-show()
 {
   read -p "Ingrese nombre de usuario: " nom
   read -p "Ingrese nombre de TP a mostrar: " tpi
-  openstack server list
+  openstack server list |grep -o 192.168.0.* |awk '{print $1}' |sort
 }
 function sshkey-create()
 {
