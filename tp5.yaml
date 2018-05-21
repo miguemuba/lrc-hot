@@ -15,10 +15,6 @@ parameters:
     type: string
     description: Public network id
     default: provider
-  router:
-    type: string
-    description: Router
-    default: router
 resources:
   net1:
     type: OS::Neutron::Net
@@ -74,10 +70,15 @@ resources:
     properties:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: port9 }
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_net_id }
   router_interface1:
     type: OS::Neutron::RouterInterface
     properties:
-      router: { get_param: router }
+      router: { get_resource: router }
       subnet: { get_resource: subnet1 }
   port1:
     type: OS::Neutron::Port
