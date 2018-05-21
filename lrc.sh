@@ -50,7 +50,7 @@ function os-stack-create()
     echo "Ingresar nombre de TP deseado usando nomenclatura tpN.";
     echo "Por ej, para TP N°1 ingresar 'tp1'";
     read -p "Ingrese nombre del TP a desplegar" tp;
-    EXISTE=$(grep -ic "prueba" tp1.yaml)
+    EXISTE=$(grep -ic "$key" tp1.yaml)
     if [ "$EXISTE" == 0 ]; then {
     sed -i '6i \    \default: '$key $tp.yaml;
     openstack stack create -t $tp.yaml $tp-$nom;
