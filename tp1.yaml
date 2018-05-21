@@ -3,6 +3,7 @@ parameters:
   key:
     type: string
     description: instance key
+    default: clave1
   flavor:
     type: string
     description: Instance type for the instance to be created
@@ -15,10 +16,6 @@ parameters:
     type: string
     description: Public network id
     default: provider
-  router:
-    type: string
-    description: Router
-    default: router
 resources:
   instance1:
     type: OS::Nova::Server
@@ -118,7 +115,6 @@ resources:
     properties:
       port_security_enabled: false
   subnet2:
-    #name: tp1-ej1_subnet2
     type: OS::Neutron::Subnet
     properties:
       network_id: { get_resource: net2 }
@@ -128,7 +124,6 @@ resources:
     properties:
       port_security_enabled: false
   subnet3:
-    #name: tp1-ej1_subnet3
     type: OS::Neutron::Subnet
     properties:
       network_id: { get_resource: net3 }
@@ -225,19 +220,24 @@ resources:
     properties:
       floating_network_id: { get_param: public_net_id }
       port_id: { get_resource: port6 }
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_net_id }
   router_interface1:
     type: OS::Neutron::RouterInterface
     properties:
-      router: { get_param: router }
+      router: { get_resource: router }
       subnet: { get_resource: subnet1 }
   router_interface2:
     type: OS::Neutron::RouterInterface
     properties:
-      router: { get_param: router }
+      router: { get_resource: router }
       subnet: { get_resource: subnet2 } 
   router_interface3:
     type: OS::Neutron::RouterInterface
     properties:
-      router: { get_param: router }
+      router: { get_resource: router }
       subnet: { get_resource: subnet3 }  
 outputs:
