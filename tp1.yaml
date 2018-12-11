@@ -242,3 +242,16 @@ resources:
       router: { get_resource: router }
       subnet: { get_resource: subnet3 }  
 outputs:
+  instance_ip1:
+    description: Direccion IPv4 de Instancia1.
+    value: { get_attr: [ instance1, first_address ] }
+  instance_ip2:
+    description: Direccion IPv4 de Instancia2.
+    value: { get_attr: [ instance2, first_address ] }
+  instance_ip3:
+    description: Direccion IPv4 de Instancia1.
+    value: { get_attr: [ instance3, first_address ] }
+  instance_ip4:
+    description: Direccion IPv4 de Instancia1.
+    value: { get_attr: [ instance4, first_address ] }
+
