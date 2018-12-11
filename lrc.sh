@@ -97,7 +97,8 @@ function os-stack-show()
 {
   read -p "Ingrese nombre de usuario: " nom
   read -p "Ingrese nombre de TP a mostrar: " tpi
-  openstack server list |grep -o 192.168.1.* |awk '{print $1}' |sort
+  #openstack server list |grep -o 192.168.1.* |awk '{print $1}' |sort
+  openstack stack show $tpi-$nom | grep output*
   sleep 3
 }
 function sshkey-create()
