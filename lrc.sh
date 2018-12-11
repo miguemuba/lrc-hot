@@ -29,14 +29,19 @@ function os-auth()
         echo  $controller " controller" >> /etc/hosts
         }
       else echo "Usted ya ha creado su autenticación Openstack."
+      sleep 3
       fi
       }
   else echo "Usted no ha creado aun su clave SSH.";
+  sleep 2
   fi
 }
 function os-client-install()
 {
+  echo "---------------------------------------------------------"
   echo "Instalando Openstack-Cliente..."
+  echo "---------------------------------------------------------"
+  sleep 3
   sudo apt-get -y update
   sudo apt-get install python-dev python-pip
   sudo pip install --upgrade pip
@@ -61,8 +66,21 @@ function os-stack-create()
     if [ "$EXISTE" == 0 ]; then {
     sed -i '6i \    \default: '$key $tp.yaml;
     openstack stack create -t $tp.yaml $tp-$nom;
+    sleep 1
+    echo "-------------------------------"
+    echo "Creacion en Progreso..."
+    sleep 2
+    echo "------------------------------------"
+    echo "Ejecutar opcion nº8 en unos minutos."
+    echo "------------------------------------"
     }
     else openstack stack create -t $tp.yaml $tp-$nom;
+    echo "-------------------------------"
+    echo "Creacion en Progreso..."
+    sleep 2
+    echo "------------------------------------"
+    echo "Ejecutar opcion nº8 en unos minutos."
+    echo "------------------------------------"
     fi
   }
   else echo "Usted no ha creado aun su clave SSH.";
@@ -79,7 +97,7 @@ function os-stack-show()
 {
   read -p "Ingrese nombre de usuario: " nom
   read -p "Ingrese nombre de TP a mostrar: " tpi
-  openstack server list |grep -o 192.168.0.* |awk '{print $1}' |sort
+  openstack server list |grep -o 192.168.1.* |awk '{print $1}' |sort
   sleep 3
 }
 function sshkey-create()
@@ -94,10 +112,15 @@ function sshkey-create()
 function os-keypair()
 {
   read -p "Ingrese nombre de SSH-Key: " key
-  openstack keypair create --public-key ~/.ssh/$key.pub $key
+  if [ openstack keypair create --public-key ~/.ssh/$key.pub $key ]; then {
   echo "----------------------------------------"
   echo "Se ha creado el par de claves Openstack."
   echo "----------------------------------------"
+  sleep 2
+  }
+  else "No se pudo realizar la tarea. Verifique de ejecutar este script usando 'sudo'.";
+  sleep 2
+  fi
 }
 function os-auth-load()
 {
@@ -109,7 +132,7 @@ function os-auth-load()
 function os-user-show()
 {
   read -p "Ingrese nombre de usuario: " nom
-  openstack user show $nom
+  openstack project list
   sleep 2
 }
 function menu()
@@ -121,16 +144,16 @@ function menu()
   echo "#    Instalando el entorno"
   echo "#       1.- Clonar Repositorio de Trabajos Practicos"
   echo "#       2.- Crear Key SSH"
-  echo "#       3.- Crear autenticacion Openstack"
+  echo "#       3.- Crear autenticación Openstack"
   echo "#       4.- Instalar entorno Openstack Cliente"
   echo "#"
   echo "#    Trabajando en el entorno"
-  echo "#       5.- Autenticacion Openstack" 
+  echo "#       5.- Autenticación Openstack" 
   echo "#       6.- Crear Keypair para instancias"                 
-  echo "#       7.- Desplegar Trabajo Practico"
-  echo "#       8.- Consulta Trabajo Practico"
-  echo "#       9.- Eliminar Trabajo Practico"
-  echo "#       10.- Consulta Usuario"
+  echo "#       7.- Desplegar Trabajo Práctico"
+  echo "#       8.- Consulta Trabajo Práctico"
+  echo "#       9.- Eliminar Trabajo Práctico"
+  echo "#       10.- Consulta Usuario/Proyecto"
   echo "#       11.- Salir"     
   echo "###########################################################################"
    
