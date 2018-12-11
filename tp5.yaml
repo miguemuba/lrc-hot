@@ -410,3 +410,35 @@ resources:
       fixed_ips:
         - subnet_id: { get_resource: subnet8 }
 outputs:
+  instance_ip1:
+    description: Direccion IPv4 de Instancia1.
+    value: { get_attr: [ floating_ip1, floating_ip_address ] }
+  instance_ip2:
+    description: Direccion IPv4 de Instancia2.
+    value: { get_attr: [ floating_ip2, floating_ip_address ] }
+  instance_ip3:
+    description: Direccion IPv4 de Instancia3.
+    value: { get_attr: [ floating_ip3, floating_ip_address ] }
+  instance_ip4:
+    description: Direccion IPv4 de Instancia4.
+    value: { get_attr: [ floating_ip4, floating_ip_address ] }
+  instance_ip5:
+    description: Direccion IPv4 de Instancia5.
+    value: { get_attr: [ floating_ip5, floating_ip_address ] }
+  instance_ip6:
+    description: Direccion IPv4 de Instancia6.
+    value: { get_attr: [ floating_ip6, floating_ip_address ] }
+  instance_ip7:
+    description: Direccion IPv4 de Instancia7.
+    value: { get_attr: [ floating_ip7, floating_ip_address ] }
+  instance_ip8:
+    description: Direccion IPv4 de Instancia8.
+    value: { get_attr: [ floating_ip8, floating_ip_address ] }
+  instance_ip9:
+    description: Direccion IPv4 de Instancia9.
+    value: { get_attr: [ floating_ip9, floating_ip_address ] }
+  
+
+
+
+
