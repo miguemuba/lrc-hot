@@ -20,8 +20,11 @@ function os-auth()
         echo "export OS_AUTH_URL=http://"$controller":35357/v3" >> $nom
         echo "export OS_IDENTITY_API_VERSION=3" >> $nom
         echo "export OS_IMAGE_API_VERSION=2" >> $nom
+        echo "---------------------------------------------------------"
         echo "Usted ha creado el archivo de autenticacion exitosamente."
-        echo "Agregando servidor "$controller" en ubicacion /etc/hosts"
+        echo "---------------------------------------------------------"
+        sleep 3  
+        echo "Agregando servidor " $controller " en ubicacion /etc/hosts"
         sleep 3
         echo  $controller " controller" >> /etc/hosts
         }
@@ -39,7 +42,11 @@ function os-client-install()
   sudo pip install --upgrade pip
   sudo pip install --upgrade setuptools
   sudo pip install python-openstackclient
-  sudo pip install python-heatclient  
+  sudo pip install python-heatclient
+  echo "-------------------------------"
+  echo "Finalizando Instalacion."
+  echo "-------------------------------"
+  sleep 3 
 }
 function os-stack-create()
 {
@@ -48,8 +55,8 @@ function os-stack-create()
   if [ -f ~/.ssh/$key ]; then {
     echo "A continuacion se va a desplegar un TP.";
     echo "Ingresar nombre de TP deseado usando nomenclatura tpN.";
-    echo "Por ej, para TP N°1 ingresar 'tp1'";
-    read -p "Ingrese nombre del TP a desplegar" tp;
+    echo "Por ej, para TP N°1 ingresar 'tp1' ";
+    read -p "Ingrese nombre del TP a desplegar : " tp;
     EXISTE=$(grep -ic "$key" tp1.yaml)
     if [ "$EXISTE" == 0 ]; then {
     sed -i '6i \    \default: '$key $tp.yaml;
@@ -66,33 +73,44 @@ function os-stack-delete()
   read -p "Ingrese nombre de usuario: " nom
   read -p "Ingrese nombre de TP a eliminar: " tpd
   openstack stack delete $tpd-$nom
+  sleep 3
 }
 function os-stack-show()
 {
   read -p "Ingrese nombre de usuario: " nom
   read -p "Ingrese nombre de TP a mostrar: " tpi
   openstack server list |grep -o 192.168.0.* |awk '{print $1}' |sort
+  sleep 3
 }
 function sshkey-create()
 {
   read -p "Ingrese el nombre de SSH-Key: " key
   ssh-keygen -t rsa -f ~/.ssh/$key
+  echo "-------------------------------"
+  echo "Se ha creado la clave SSH."
+  echo "-------------------------------"
+  sleep 2
 }
 function os-keypair()
 {
   read -p "Ingrese nombre de SSH-Key: " key
   openstack keypair create --public-key ~/.ssh/$key.pub $key
+  echo "----------------------------------------"
+  echo "Se ha creado el par de claves Openstack."
+  echo "----------------------------------------"
 }
 function os-auth-load()
 {
   read -p "Ingrese nombre de usuario: " nom
   source $nom
   echo "Usted se ha autenticado exitosamente!"
+  sleep 4
 }
 function os-user-show()
 {
   read -p "Ingrese nombre de usuario: " nom
   openstack user show $nom
+  sleep 2
 }
 function menu()
 {
